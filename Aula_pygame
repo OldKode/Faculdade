@@ -1,0 +1,47 @@
+import random
+import pygame
+import ctypes
+
+user32 = ctypes.windll.user32
+
+pygame.init()
+
+#altura  = user32.GetSystemMetrics(0)
+altura = 1000
+#largura = user32.GetSystemMetrics(1)
+largura = 1000
+#pygame.display.toggle_fullscreen()
+
+#Preenche a tela
+screen = pygame.display.set_mode((largura,altura))
+
+#Preenche a tela
+cont = 0
+
+for evento in pygame.event.get():
+    print(evento)
+
+loop = True
+while loop:
+    red = random.randint(0,255)
+    green = random.randint(0,255)
+    blue = random.randint(0,255)
+    screen.fill((red,green,blue))
+    pygame.draw.circle(screen,(blue,green,red),(500- ((cont)* 10),500 - ((cont) * 25)),250)
+    #Atualiza a tela
+    pygame.display.flip()
+    pygame.time.delay(1000)
+    
+    cont = cont + 1
+
+
+#Altera o nome da tela
+pygame.display.set_caption("Ola Mundo")
+
+#pygame.display.toggle_fullscreen()
+
+pygame.time.delay(5000)
+
+pygame.display.flip()
+
+pygame.quit()
