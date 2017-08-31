@@ -1,0 +1,76 @@
+import pygame
+
+import random
+import pygame
+import ctypes
+
+user32 = ctypes.windll.user32
+
+pygame.init()
+
+#altura  = user32.GetSystemMetrics(0)
+altura = 1000
+#largura = user32.GetSystemMetrics(1)
+largura = 1000
+#pygame.display.toggle_fullscreen()
+
+#Preenche a tela
+screen = pygame.display.set_mode((largura,altura))
+
+pygame.display.set_caption("Jogo da bolinha")
+
+red = random.randint(0,255)
+green = random.randint(0,255)
+blue = random.randint(0,255)
+screen.fill((red,green,blue))
+bolaX = 500
+bolaY = 500
+pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+pygame.display.flip()
+
+JogoAtivo = True
+while JogoAtivo: 
+    # trata os eventos da fila de eventos
+    for evento in pygame.event.get():
+        print(evento)
+        #verifica se o evento que veio eh
+        #para fechar a janela
+        if evento.type == pygame.QUIT:
+            JogoAtivo = False
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_ESCAPE:
+                JogoAtivo = False
+            if evento.key == pygame.K_LEFT:
+                bolaX = bolaX - 50
+                screen.fill((red,green,blue))
+                pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+                pygame.display.flip()
+            if evento.key == pygame.K_RIGHT:
+                bolaX = bolaX + 50
+                screen.fill((red,green,blue))
+                pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+                pygame.display.flip()
+            if evento.key == pygame.K_DOWN:
+                bolaY = bolaY + 50
+                screen.fill((red,green,blue))
+                pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+                pygame.display.flip()
+            if evento.key == pygame.K_UP:
+                bolaY = bolaY - 50
+                screen.fill((red,green,blue))
+                pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+                pygame.display.flip()
+            if evento.key == pygame.K_r:
+                red = random.randint(0,255)
+                green = random.randint(0,255)
+                blue = random.randint(0,255)
+                screen.fill((red,green,blue))
+                bolaX = 500
+                bolaY = 500
+                pygame.draw.circle(screen,(blue,green,red),(bolaX,bolaY),250)
+                pygame.display.flip()
+            print('Uma tecla foi pressionada')
+        if evento.type == pygame.KEYUP:
+            print('uma tecla foi liberada')
+            
+pygame.quit()
