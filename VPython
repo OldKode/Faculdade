@@ -1,0 +1,46 @@
+from visual import *
+
+floor = box(pos=(0,0,0), size=(25,0.5,1), color=color.blue)
+ball = sphere(pos=((floor.size.x/2) * -1, floor.size.y +0.25,0), radius=0.5, color=color.red)
+bally = sphere(pos=((floor.size.x/2) * -1,floor.size.y +0.25,0), radius=0.5, color=color.yellow)
+ballg = sphere(pos=(0,(floor.size.x/2) * -1,0), radius=0.5, color=color.green)
+ballm = sphere(pos=(0,(floor.size.x/4) * -1,0), radius=0.5, color=color.magenta)
+
+ball.trail = curve(color=ball.color)
+bally.trail = curve(color=bally.color)
+ballg.trail = curve(color=ballg.color)
+ballm.trail = curve(color=ballm.color)
+
+deltat = 0.005
+t = 0
+
+while 1:
+    #tempo de espera
+    rate(500)
+
+    #Movimentação retilinea
+    ball.velocity = vector(1,0,0)
+    ball.pos = ball.pos + ball.velocity * deltat
+    ball.trail.append(pos=ball.pos)
+
+    #Movimentação oscilante
+    bally.velocity = vector(1,math.sin(t),0)
+    bally.pos = bally.pos + bally.velocity * deltat
+    bally.trail.append(pos=bally.pos)
+
+    #Movimentação circular
+    ballg.velocity = vector(math.cos(t) * (floor.size.x /2) ,math.sin(t) * (floor.size.x /2),0)
+    ballg.pos = ballg.pos + ballg.velocity * deltat
+    ballg.trail.append(pos=ballg.pos)
+
+    #Movimentação circular
+    ballm.velocity = vector(math.cos(2*t) * (floor.size.x /2) ,math.sin(7*t) * (floor.size.x /2), 0)
+    ballm.pos = ballm.pos + ballm.velocity * deltat 
+    ballm.trail.append(pos=ballm.pos)
+    
+    t = t + deltat
+    if t > floor.size.x:
+        deltat = -0.005
+    if t < 0:
+        deltat = 0.005        
+
