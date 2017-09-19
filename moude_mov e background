@@ -1,0 +1,69 @@
+import random
+import pygame
+import ctypes
+
+user32 = ctypes.windll.user32
+
+pygame.init()
+
+#altura  = user32.GetSystemMetrics(0)
+largura = 1260
+#largura = user32.GetSystemMetrics(1)
+altura = 720
+#pygame.display.toggle_fullscreen()
+
+#Preenche a tela
+screen = pygame.display.set_mode((largura,altura))
+
+#Altera o nome da tela
+pygame.display.set_caption("Teste")
+
+pygame.mouse.set_visible(False)
+
+clock = pygame.time.Clock()
+
+background_image = pygame.image.load("Undead_Burg.jpg")
+player_image     = pygame.image.load("char.png")
+player_image_acao= pygame.image.load("char_acao.png")
+player_atual     = player_image
+click_sound      = pygame.mixer.Sound("acao.ogg")
+
+screen.blit(background_image,(0,0))
+pygame.display.flip()
+
+#def montaBloco:
+#    bloco = pygame.Rect(100,100, 100,100)
+
+# Current position
+x_coord = 10
+y_coord = 10
+
+#Preenche a tela
+cont = 0
+JogoAtivo = True
+while JogoAtivo:
+
+    # as a list of two numbers.
+    player_position = pygame.mouse.get_pos()
+    x = player_position[0]
+    y = player_position[1]
+    # Copy image to screen:
+    screen.blit(background_image,(0,0))
+    if x > 0 and y > 0:
+        screen.blit(player_atual,(x, y))
+        
+    #pygame.draw.rect(screen,(100,100,100),bloco)
+    for evento in pygame.event.get():
+        print(evento)
+        if evento.type == pygame.QUIT:
+                JogoAtivo = False
+        elif evento.type == pygame.MOUSEBUTTONDOWN:
+            click_sound.play()
+            player_atual = player_image_acao
+        elif evento.type == pygame.MOUSEBUTTONUP:
+            player_atual = player_image
+        
+    
+               
+    pygame.display.flip()
+pygame.quit()
