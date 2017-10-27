@@ -1,0 +1,45 @@
+# -*- coding: cp1252 -*-
+from visual import *
+import wx
+
+######INPUTS
+gravidade   = 9.8
+angulo      = 45
+rapidez     = 20
+angulo      = 85
+rapidez     = 20
+radiano     = ((2 * math.pi) * angulo )/ 360
+
+amp         = 6.407
+freq        = 0.561
+freqang     = (2 * math.pi) * freq
+
+#calculando a rapidez da direção X e Y.
+rapidez_x   = rapidez * math.cos(radiano)
+rapidez_y   = rapidez * math.sin(radiano)
+
+# Locais
+floor = box(pos=(0,0,0), size=(50,0.5,1), color=color.blue)
+ball = sphere(pos=((floor.size.x/2) * -1, floor.size.y +0.25,0), radius=0.5, color=color.red)
+
+#Declarando o vetor da gravidade
+grav = vector(0, gravidade * -1,0)
+#Ativando a trilha da bola 
+ball.trail = curve(color=ball.color)
+#Declarando velocidade inicial do objeto ball
+ball.velocity = vector(rapidez_x,rapidez_y,0)
+
+#Declarando Delta time e time.
+deltat = 0.005
+t = 0
+
+while t < 29:
+    #tempo de espera
+    rate(500)
+
+    #Lançamento Obliquo
+    ball.pos.x      = ball.pos.x + (ball.velocity.x * deltat)
+    ball.pos.y      = amp * math.cos(freqang*t)
+    #ball.pos.x      = -ball.pos.y
+    ball.trail.append(pos=ball.pos)
+    t = t + deltat
