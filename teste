@@ -1,0 +1,124 @@
+# -*- coding: cp1252 -*-
+from Tkinter import *
+from visual import *
+import wx   
+
+class Application:
+    def __init__(self, master=None):
+        self.bolapos    = (0,0,0)
+        self.angulo     = 0
+        self.rapidez    = 0
+        
+        self.fontePadrao = ("Arial", "10")
+        self.primeiroContainer = Frame(master)
+        self.primeiroContainer["pady"] = 10
+        self.primeiroContainer.pack()
+   
+        self.segundoContainer = Frame(master)
+        self.segundoContainer["padx"] = 20
+        self.segundoContainer.pack()
+   
+        self.terceiroContainer = Frame(master)
+        self.terceiroContainer["padx"] = 30
+        self.terceiroContainer.pack()
+   
+        self.quartoContainer = Frame(master)
+        self.quartoContainer["pady"] = 20
+        self.quartoContainer.pack()
+   
+        self.titulo = Label(self.primeiroContainer, text="Dados do movimento")
+        self.titulo["font"] = ("Arial", "10", "bold")
+        self.titulo.pack()
+   
+        self.senhaLabel = Label(self.terceiroContainer, text="linha de execução:", font=self.fontePadrao)
+        self.senhaLabel.pack(side=LEFT)
+ 
+        self.senha = Entry(self.terceiroContainer)
+        self.senha["width"] = 20
+        self.senha["font"] = self.fontePadrao
+        self.senha.pack(side=LEFT)
+ 
+        self.autenticar = Button(self.quartoContainer)
+        self.autenticar["text"] = "Executar"
+        self.autenticar["font"] = ("Calibri", "8")
+        self.autenticar["width"] = 12
+        self.autenticar["command"] = self.move
+        self.autenticar.pack()
+ 
+        self.mensagem = Label(self.quartoContainer, text="", font=self.fontePadrao)
+        self.mensagem.pack()
+ 
+    #Método verificar senha
+    def move(self):
+        ######INPUTS
+        executar = self.senha.get()
+        #print(executar)
+        chars = []
+        for line in executar:
+            for c in line:
+                chars.append(c)
+                           
+        if chars[0] == 'f' and chars[1] == 'd':
+            indfora = 3
+            comando = ''
+            for ind in range(len(executar)-3):
+                comando = comando + chars[indfora + ind]
+        if chars[0] == 'r' and chars[1] == 't':
+            indfora = 3
+            comando = ''
+            for ind in range(len(executar)-3):
+                comando = comando + chars[indfora + ind]
+        if chars[0] == 'l' and chars[1] == 't':
+            indfora = 3
+            comando = ''
+            for ind in range(len(executar)-3):
+                comando = comando + chars[indfora + ind]                
+
+        
+        angulo      = self.angulo
+        rapidez     = 20
+        angulo      = float(self.angulo)
+        rapidez     = float(0)
+        radiano     = ((2 * math.pi) * angulo )/ 360
+
+        #calculando a rapidez da direção X e Y.
+        rapidez_x   = rapidez * math.cos(radiano)
+        rapidez_y   = rapidez * math.sin(radiano)
+
+        ball    = sphere(pos=self.bolapos, radius=0.5, color=color.red)
+
+        #Declarando o vetor da gravidade
+        #Ativando a trilha da bola 
+        ball.trail = curve(color=ball.color)
+        #Declarando velocidade inicial do objeto ball
+        ball.velocity = vector(rapidez_x,rapidez_y,0)
+
+        #Declarando Delta time e time.
+        deltat = 0.005
+        t = 0
+        
+        while ball.pos.y > floor.pos.y + floor.size.y and not emcima:
+            #tempo de espera
+            rate(500)
+            
+            #Lançamento Obliquo
+            ball.pos.x      = ball.pos.x + (ball.velocity.x * deltat)
+            ball.pos.y      = ball.pos.y + (ball.velocity.y * deltat) - ((gravidade*(deltat*deltat))/2)
+            ball.velocity.y = ball.velocity.y - (gravidade * deltat)
+            
+            #Efeito da gravidade
+            #ball.velocity = ball.velocity + ((grav * (deltat * deltat))/2)
+            #Movimenta bola
+            #ball.pos += ball.velocity * deltat
+
+            if parede.pos.x - 1 < ball.pos.x < parede.pos.x + parede.size.x and ball.pos.y < (parede.size.y/2):
+                ball.velocity.x = -ball.velocity.x
+            if parede.pos.x - 1 < ball.pos.x < parede.pos.x + parede.size.x and ball.pos.y <= (parede.size.y/2):
+                ball.velocity.x = -ball.velocity.x
+                ball.velocity.y = -ball.velocity.y
+            ball.trail.append(pos=ball.pos)
+            t = t + deltat
+   
+root = Tk()
+Application(root)
+root.mainloop()
