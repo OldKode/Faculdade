@@ -22,14 +22,16 @@ public class ponto {
     public int[] proximo(ponto outro[], int limite){
         int [] aux;
         aux = new int[outro.length];
-        int [] pontoProx = new int[limite];
-        
+        int [] pontoProx;
+        pontoProx = new int[limite];
         int menor, menorInd;
-                
+        boolean achou = false;
+        
         //calcula distancia
         for(int lnX = 0; lnX <= outro.length;lnX++){
             aux[lnX] = (int) Math.sqrt(Math.pow((x - outro[lnX].x),2) + Math.pow((y - outro[lnX].y),2));
         }
+        //resultado= √(P1. x − P2. x)^2 + (P1. y − P2. y)^2
         
         //percorre a lista de distancias pegando a distancia menor e jogando no vetor pontoprox (na ordem)
         for(int lnIni = 0; lnIni <= pontoProx.length; lnIni++){
@@ -37,14 +39,20 @@ public class ponto {
             menor = aux[0];
             for(int cont = 0; cont <= outro.length; cont++){
                 if(aux[cont] < menor){
-                    menorInd = cont;
-                    menor = aux[cont];
+                    for(int esta = 0; lnIni <= pontoProx.length; lnIni++){
+                        if (pontoProx[esta] == cont){
+                            achou = true;
+                        }    
+                    }
+                    if !(achou){
+                        menorInd = cont;
+                        menor = aux[cont];
+                    }
                 }
             }
             pontoProx[lnIni] = menorInd;
         }
-        //resultado= √(P1. x − P2. x)^2 + (P1. y − P2. y)^2
-
+        
         return pontoProx;
     }
 }
